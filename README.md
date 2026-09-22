@@ -39,7 +39,8 @@ ci.contains(5.2)    # 检查区间是否覆盖真值
 `python examples/demo_phase1.py`（卡方 / F / 比例）、
 `python examples/demo_phase2.py`（区间估计）、
 `python examples/demo_glrt.py`（GLRT 似然比检验）、
-`python examples/demo_regression.py`（回归与预测）
+`python examples/demo_regression.py`（回归与预测）、
+`python examples/demo_anova.py`（方差分析与事后比较）
 
 全部可用过程一览：`python -m mystats` 或 `mystats.list_procedures()`
 
@@ -54,7 +55,7 @@ src/mystats/
 ├── hypothesis/       假设检验   —— 已有 z/t/卡方/F/比例/GLRT
 ├── interval/         区间估计   —— 已有均值/均值差/配对/方差/比例区间
 ├── regression/       回归分析   —— 已有 OLS/非线性 + 诊断与预测；规划：GLM
-├── anova/            方差分析   —— 阶段 4：单/双因素、事后检验
+├── anova/            方差分析   —— 已有单/双因素、Tukey HSD、Levene
 ├── nonparametric/    非参数检验 —— 预留：符号、秩和、KS
 ├── resampling/       重抽样     —— 预留：Bootstrap、置换检验
 └── multivariate/     多元统计   —— 预留：Hotelling T2、PCA
@@ -67,8 +68,8 @@ src/mystats/
 | 2 | 区间估计扩充：两样本均值差、配对、方差、比例 | ✅ |
 | — | 插队：GLRT 广义似然比检验（通用引擎 + 正态/指数均值实例） | ✅ |
 | 3 | 回归：一元 / 多元 OLS、显著性、诊断、非线性、预测区间 | ✅ |
-| 4 | 方差分析：单 / 双因素、ANOVA 表、事后检验 | ⬜ 下一站 |
-| 5 | 打磨文档与示例、发布 PyPI | ⬜ |
+| 4 | 方差分析：单 / 双因素、ANOVA 表、Tukey HSD、Levene | ✅ |
+| 5 | 打磨文档与示例、发布 PyPI | ⬜ 下一站 |
 
 ## 如何新增一个统计过程（黄金模板四步）
 

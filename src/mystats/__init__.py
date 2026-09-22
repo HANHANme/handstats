@@ -14,7 +14,7 @@
 hypothesis/     假设检验（已有 z/t/卡方/F/比例/GLRT）
 interval/       区间估计（已有均值/均值差/配对/方差/比例区间）
 regression/     回归分析（已有 OLS/非线性 + 诊断与预测）
-anova/          方差分析（预留，阶段 4）
+anova/          方差分析（已有单/双因素、Tukey、Levene）
 nonparametric/  非参数检验（预留）
 resampling/     Bootstrap / 置换检验（预留）
 multivariate/   多元统计分析（预留）
@@ -26,6 +26,7 @@ multivariate/   多元统计分析（预留）
 from __future__ import annotations
 
 from mystats._registry import PROCEDURES, register
+from mystats.anova import anova_oneway, anova_twoway, levene_test, tukey_hsd
 from mystats.base import FitResult, IntervalResult, TestResult
 from mystats.hypothesis import (
     chisquare_gof,
@@ -49,7 +50,7 @@ from mystats.interval import (
 )
 from mystats.regression import lin_reg, nonlin_reg
 
-__version__ = "0.5.0"
+__version__ = "0.6.0"
 
 __all__ = [
     "TestResult",
@@ -73,6 +74,10 @@ __all__ = [
     "ci_proportion",
     "lin_reg",
     "nonlin_reg",
+    "anova_oneway",
+    "anova_twoway",
+    "tukey_hsd",
+    "levene_test",
     "register",
     "list_procedures",
 ]

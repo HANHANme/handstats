@@ -68,6 +68,16 @@ def f_ppf(q: float, dfn: float, dfd: float) -> float:
     return float(_sp.f.ppf(q, dfn, dfd))
 
 
+# ---------------- 学生化极差分布（组数 k，误差自由度 df；Tukey HSD 用）----------------
+# scipy 1.11+ 提供；mystats 依赖 scipy>=1.8，运行环境若过旧会在调用时报错
+def studentized_range_ppf(q: float, k: float, df: float) -> float:
+    return float(_sp.studentized_range.ppf(q, k, df))
+
+
+def studentized_range_sf(x: float, k: float, df: float) -> float:
+    return float(_sp.studentized_range.sf(x, k, df))
+
+
 # ---------------- 统计量 → p 值的共用出口 ----------------
 
 _ALLOWED_DISTS = ("norm", "t", "chi2", "f")
