@@ -8,7 +8,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mystats" # ← 占位名！发布前整体改名：改这里 + 改 src/mystats 目录名
-version = "0.4.0"
+version = "0.5.0"
 description = "面向学习的数理统计工具包：假设检验、区间估计、回归、方差分析（建设中）"
 readme = "README.md"
 license = { text = "MIT" }

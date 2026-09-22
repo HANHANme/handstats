@@ -1,14 +1,14 @@
-"""回归分析子包（阶段 3 动工，目前预留）。
+"""回归分析子包（阶段 3）。
 
-规划内容
---------
-- 一元 / 多元线性回归（OLS）：系数估计、t / F 显著性检验、R²、
-  置信区间与预测区间；
-- 加权最小二乘（WLS）；
-- 非线性最小二乘（配合课程已学的非线性回归）；
-- 回归诊断：残差分析、影响点（Cook 距离）、多重共线性（VIF）；
-- 广义线性模型（逻辑回归 / 泊松回归）。
+已有：
+- lin_reg：一元/多元 OLS（t / F 检验、系数置信区间、R²、
+  残差诊断、predict 预测区间）
+- nonlin_reg：非线性最小二乘（scipy curve_fit + 参数推断）
 
-动工时的模板：hypothesis/tests_mean.py 的四步流水线 +
-base.FitResult 结果对象。
+规划：加权最小二乘（WLS）、广义线性模型（逻辑/泊松回归）、逐步回归。
+动工模板：见 ols.py 与 base.FitResult。
 """
+from mystats.regression.nonlinear import nonlin_reg
+from mystats.regression.ols import lin_reg
+
+__all__ = ["lin_reg", "nonlin_reg"]

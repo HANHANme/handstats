@@ -13,7 +13,7 @@
 --------
 hypothesis/     假设检验（已有 z/t/卡方/F/比例/GLRT）
 interval/       区间估计（已有均值/均值差/配对/方差/比例区间）
-regression/     回归分析（预留，阶段 3）
+regression/     回归分析（已有 OLS/非线性 + 诊断与预测）
 anova/          方差分析（预留，阶段 4）
 nonparametric/  非参数检验（预留）
 resampling/     Bootstrap / 置换检验（预留）
@@ -47,8 +47,9 @@ from mystats.interval import (
     ci_proportion,
     ci_var,
 )
+from mystats.regression import lin_reg, nonlin_reg
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 
 __all__ = [
     "TestResult",
@@ -70,6 +71,8 @@ __all__ = [
     "ci_paired_diff",
     "ci_var",
     "ci_proportion",
+    "lin_reg",
+    "nonlin_reg",
     "register",
     "list_procedures",
 ]
