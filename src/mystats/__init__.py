@@ -11,7 +11,7 @@
 
 目录结构（可延展性）
 --------
-hypothesis/     假设检验（已有 z/t/卡方/F/比例；规划：GLRT 等）
+hypothesis/     假设检验（已有 z/t/卡方/F/比例/GLRT）
 interval/       区间估计（已有均值/均值差/配对/方差/比例区间）
 regression/     回归分析（预留，阶段 3）
 anova/          方差分析（预留，阶段 4）
@@ -31,6 +31,9 @@ from mystats.hypothesis import (
     chisquare_gof,
     chisquare_ind,
     ftest_2samp_var,
+    glrt_exponential_mean,
+    glrt_normal_mean,
+    glrt_test,
     ttest_1samp,
     ttest_2samp_ind,
     ztest_1prop,
@@ -45,7 +48,7 @@ from mystats.interval import (
     ci_var,
 )
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 __all__ = [
     "TestResult",
@@ -59,6 +62,9 @@ __all__ = [
     "ftest_2samp_var",
     "ztest_1prop",
     "ztest_2prop",
+    "glrt_test",
+    "glrt_normal_mean",
+    "glrt_exponential_mean",
     "ci_mean",
     "ci_mean_2samp",
     "ci_paired_diff",
