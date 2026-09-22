@@ -1,0 +1,35 @@
+# pyproject.toml —— 包的“身份证”：名字、版本、依赖都在这里声明。
+# 本地开发用 `python -m pip install -e ".[dev]"` 安装（-e 可编辑模式，
+# 改源码立即生效，不用重装）。发布到 PyPI 时也用这个文件打包。
+
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mystats" # ← 占位名！发布前整体改名：改这里 + 改 src/mystats 目录名
+version = "0.1.0"
+description = "面向学习的数理统计工具包：假设检验、区间估计、回归、方差分析（建设中）"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+dependencies = [
+    "numpy>=1.22",
+    "scipy>=1.8",
+]
+
+[project.optional-dependencies]
+# 开发时的额外依赖：pip install -e ".[dev]" 会一并装上
+dev = ["pytest>=7.0"]
+
+[tool.setuptools.packages.find]
+# src 布局：真正的包代码在 src/mystats 下（现代 Python 包的标准做法，
+# 可以防止“不小心 import 到当前目录里的源码”这类坑）
+where = ["src"]
+
+[tool.setuptools.package-data]
+mystats = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

@@ -1,0 +1,22 @@
+# Python 运行产物
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.eggs/
+
+# 测试与工具缓存
+.pytest_cache/
+.coverage
+htmlcov/
+
+# 虚拟环境与编辑器
+.venv/
+venv/
+.idea/
+.vscode/
+
+# 系统杂项
+.DS_Store
+Thumbs.db
