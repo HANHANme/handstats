@@ -11,22 +11,35 @@
 
 目录结构（可延展性）
 --------
-hypothesis/     假设检验（已有 z/t；规划：卡方、F、似然比 GLRT……）
+hypothesis/     假设检验（已有 z/t/卡方/F/比例；规划：GLRT 等）
 interval/       区间估计（已有均值 z/t 区间）
 regression/     回归分析（预留，阶段 3）
 anova/          方差分析（预留，阶段 4）
 nonparametric/  非参数检验（预留）
 resampling/     Bootstrap / 置换检验（预留）
 multivariate/   多元统计分析（预留）
+
+无代码外壳（规划）：外壳遍历 list_procedures() 即可自动生成方法菜单，
+展示统一结果对象的 conclusion() / show_steps() 文本即可，
+新增过程时外壳自动发现、零改动。雏形见 `python -m mystats`。
 """
 from __future__ import annotations
 
 from mystats._registry import PROCEDURES, register
 from mystats.base import FitResult, IntervalResult, TestResult
-from mystats.hypothesis import ttest_1samp, ttest_2samp_ind, ztest_1samp
+from mystats.hypothesis import (
+    chisquare_gof,
+    chisquare_ind,
+    ftest_2samp_var,
+    ttest_1samp,
+    ttest_2samp_ind,
+    ztest_1prop,
+    ztest_1samp,
+    ztest_2prop,
+)
 from mystats.interval import ci_mean
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = [
     "TestResult",
@@ -35,6 +48,11 @@ __all__ = [
     "ztest_1samp",
     "ttest_1samp",
     "ttest_2samp_ind",
+    "chisquare_gof",
+    "chisquare_ind",
+    "ftest_2samp_var",
+    "ztest_1prop",
+    "ztest_2prop",
     "ci_mean",
     "register",
     "list_procedures",

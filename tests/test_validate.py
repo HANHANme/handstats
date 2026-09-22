@@ -3,10 +3,14 @@ import numpy as np
 import pytest
 
 from mystats.validate import (
+    as_counts,
     as_sample,
+    as_table,
     check_alpha,
     check_alternative,
     check_confidence,
+    check_proportion,
+    check_successes,
 )
 
 
@@ -41,3 +45,30 @@ def test_alpha_and_confidence_bounds():
         check_alpha(1)
     with pytest.raises(ValueError):
         check_confidence(1.5)
+
+
+def test_as_counts_rejects_bad_frequencies():
+    with pytest.raises(ValueError):
+        as_counts([5, -1, 3]) # 负频数
+    with pytest.raises(ValueError):
+        as_counts([0, 0]) # 总频数为 0
+
+
+def test_as_table_rejects_bad_tables():
+    with pytest.raises(ValueError):
+        as_table([1, 2, 3]) # 一维
+    with pytest.raises(ValueError):
+        as_table([[5, 1], [2, -3]]) # 负频数
+    with pytest.raises(ValueError):
+        as_table([[3]]) # 不是 2×2
+
+
+def test_check_proportion_and_successes():
+    assert check_proportion(0.5, "p0") == 0.5
+    assert check_successes(65, 100, "x") == 65.0
+    with pytest.raises(ValueError):
+        check_proportion(1.5, "p0")
+    with pytest.raises(ValueError):
+        check_successes(101, 100, "x") # x > n
+    with pytest.raises(ValueError):
+        check_successes(50.5, 100, "x") # 非整数

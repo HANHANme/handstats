@@ -17,21 +17,12 @@ import numpy as np
 from mystats import distributions
 from mystats._registry import register
 from mystats.base import TestResult
+from mystats.hypothesis._common import _p_step
 from mystats.validate import as_sample, check_alpha, check_alternative, check_positive
 
 # 单样本 / 双样本场合 H1 的文字模板
 _H1_ONE = {"two-sided": "μ ≠ {mu0}", "less": "μ < {mu0}", "greater": "μ > {mu0}"}
 _H1_TWO = {"two-sided": "μ1 ≠ μ2", "less": "μ1 < μ2", "greater": "μ1 > μ2"}
-
-
-def _p_step(alternative: str, p: float, letter: str, dist_desc: str) -> str:
-    """steps 里“p 值怎么来的”那一行——三种备择假设的算法不同。"""
-    L = letter.upper()
-    if alternative == "two-sided":
-        return f"p = 2·P({L} ≥ |{letter}|) = {p:.6g}（{dist_desc}）"
-    if alternative == "less":
-        return f"p = P({L} ≤ {letter}) = {p:.6g}（{dist_desc}）"
-    return f"p = P({L} ≥ {letter}) = {p:.6g}（{dist_desc}）"
 
 
 @register("ztest_1samp")

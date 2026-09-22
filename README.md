@@ -35,7 +35,10 @@ ci.show_steps()
 ci.contains(5.2)    # 检查区间是否覆盖真值
 ```
 
-完整演示：`python examples/demo_quickstart.py`
+完整演示：`python examples/demo_quickstart.py`（入门）、
+`python examples/demo_phase1.py`（卡方 / F / 比例）
+
+全部可用过程一览：`python -m mystats` 或 `mystats.list_procedures()`
 
 ## 目录结构与路线图
 
@@ -45,7 +48,7 @@ src/mystats/
 ├── validate.py       输入校验（全包共用的第一道关卡）
 ├── distributions.py  分布层：scipy 的薄封装，未来自研数值算法的换芯点
 ├── _registry.py      过程注册表：新过程挂上即被 list_procedures() 发现
-├── hypothesis/       假设检验   —— 已有 z/t；规划：卡方、F、比例、GLRT
+├── hypothesis/       假设检验   —— 已有 z/t/卡方/F/比例；规划：GLRT
 ├── interval/         区间估计   —— 已有均值 z/t 区间
 ├── regression/       回归分析   —— 阶段 3：OLS、非线性、诊断
 ├── anova/            方差分析   —— 阶段 4：单/双因素、事后检验
@@ -57,8 +60,8 @@ src/mystats/
 | 阶段 | 内容 | 状态 |
 |---|---|---|
 | 0 | 包骨架 + 注册表 + 结果对象 + 黄金模板（z/t 检验、均值区间）+ 对拍测试 | ✅ 当前 |
-| 1 | 假设检验扩充：卡方拟合优度 / 独立性、F 方差齐性、比例检验 | ⬜ |
-| 2 | 区间估计扩充：两样本均值差、比例、方差 | ⬜ |
+| 1 | 假设检验扩充：卡方拟合优度 / 独立性、F 方差齐性、单/双比例 z 检验 | ✅ |
+| 2 | 区间估计扩充：两样本均值差、比例、方差 | ⬜ 下一站 |
 | 3 | 回归：一元 / 多元 OLS、显著性、诊断、非线性 | ⬜ |
 | 4 | 方差分析：单 / 双因素、ANOVA 表、事后检验 | ⬜ |
 | 5 | 打磨文档与示例、发布 PyPI | ⬜ |
@@ -74,6 +77,14 @@ src/mystats/
 
 最后用 `@register("名字")` 挂上注册表，并在 `tests/` 里补一条与 scipy
 的对拍测试。
+
+## 未来：无代码外壳（规划）
+
+目标：不写代码也能用——网页表单选方法、填数据、看结论和手算核对表。
+骨架已为此预留两个钩子：注册表（`python -m mystats` 一览全部过程，
+外壳遍历它即可自动生成方法菜单）和统一结果对象（外壳只需展示
+`conclusion()` / `show_steps()` 的文本）。计划在核心过程齐备后用
+Streamlit 实现网页版，并可免费部署成公开链接。
 
 ## 开发约定
 
