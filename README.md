@@ -58,7 +58,8 @@ src/mystats/
 ├── anova/            方差分析   —— 已有单/双因素、Tukey HSD、Levene
 ├── nonparametric/    非参数检验 —— 预留：符号、秩和、KS
 ├── resampling/       重抽样     —— 预留：Bootstrap、置换检验
-└── multivariate/     多元统计   —— 预留：Hotelling T2、PCA
+├── multivariate/     多元统计   —— 预留：Hotelling T2、PCA
+└── shell/            网页外壳   —— Streamlit 无代码界面（python -m mystats.shell）
 ```
 
 | 阶段 | 内容 | 状态 |
@@ -69,6 +70,7 @@ src/mystats/
 | — | 插队：GLRT 广义似然比检验（通用引擎 + 正态/指数均值实例） | ✅ |
 | 3 | 回归：一元 / 多元 OLS、显著性、诊断、非线性、预测区间 | ✅ |
 | 4 | 方差分析：单 / 双因素、ANOVA 表、Tukey HSD、Levene | ✅ |
+| — | 无代码网页外壳（Streamlit，`python -m mystats.shell`） | ✅ |
 | 5 | 打磨文档与示例、发布 PyPI | ⬜ 下一站 |
 
 ## 如何新增一个统计过程（黄金模板四步）
@@ -83,13 +85,20 @@ src/mystats/
 最后用 `@register("名字")` 挂上注册表，并在 `tests/` 里补一条与 scipy
 的对拍测试。
 
-## 未来：无代码外壳（规划）
+## 无代码网页外壳（已上线）
 
-目标：不写代码也能用——网页表单选方法、填数据、看结论和手算核对表。
-骨架已为此预留两个钩子：注册表（`python -m mystats` 一览全部过程，
-外壳遍历它即可自动生成方法菜单）和统一结果对象（外壳只需展示
-`conclusion()` / `show_steps()` 的文本）。计划在核心过程齐备后用
-Streamlit 实现网页版，并可免费部署成公开链接。
+给不会 Python 的人用：网页表单选方法、粘贴数据（可直接从 Excel 复制）、
+填参数、看结论与手算核对表。
+
+```bash
+python -m pip install -e ".[shell]"     # 装 streamlit 依赖
+python -m mystats.shell                 # 浏览器自动打开 http://localhost:8501
+```
+
+22 个过程中 20 个已支持表单化（`nonlin_reg` 需要自定义模型函数，仍走
+代码调用）。外壳只依赖两个稳定接口——注册表（菜单自动发现）和统一
+结果对象（`str(res)` 给结论、`show_steps()` 给核对表）——新增过程后在
+`src/mystats/shell/specs.py` 加一个声明条目即可出现在菜单里。
 
 ## 开发约定
 

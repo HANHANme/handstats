@@ -50,7 +50,7 @@ from mystats.interval import (
 )
 from mystats.regression import lin_reg, nonlin_reg
 
-__version__ = "0.6.0"
+__version__ = "0.7.0"
 
 __all__ = [
     "TestResult",
