@@ -152,7 +152,7 @@ for pname, pinfo in sig.parameters.items():
         idx = {"two-sided": 0, "less": 1, "greater": 2}.get(dv, 0)
         scalar_kwargs[pname] = st.selectbox(
             label, ["双侧", "左侧", "右侧"], index=idx, key=key,
-            help="备择假设 H1 的方向；中文选项会被校验层自动归一化",
+            help="备择假设 H1 的方向；选单侧时 H0 按教材写法显示为复合假设（如 H1: μ < μ0 时 H0: μ ≥ μ0）",
         )
     else:
         pass # 默认为 None 的参数（coef_names、names 等）：不传，用函数默认

@@ -17,12 +17,8 @@ import numpy as np
 from mystats import distributions
 from mystats._registry import register
 from mystats.base import TestResult
-from mystats.hypothesis._common import _p_step
+from mystats.hypothesis._common import _h0_h1, _p_step
 from mystats.validate import as_sample, check_alpha, check_alternative, check_positive
-
-# 单样本 / 双样本场合 H1 的文字模板
-_H1_ONE = {"two-sided": "μ ≠ {mu0}", "less": "μ < {mu0}", "greater": "μ > {mu0}"}
-_H1_TWO = {"two-sided": "μ1 ≠ μ2", "less": "μ1 < μ2", "greater": "μ1 > μ2"}
 
 
 @register("ztest_1samp")
@@ -48,7 +44,7 @@ def ztest_1samp(x, mu0, sigma, alternative="two-sided", alpha=0.05):
     z = (xbar - mu0) / se
     p = distributions.p_value(z, alternative, dist="norm")
 
-    h1 = _H1_ONE[alternative].format(mu0=f"{mu0:g}")
+    h0, h1 = _h0_h1("μ", f"{mu0:g}", alternative)
     steps = [
         f"样本量 n = {n}",
         f"样本均值 = {xbar:.6g}",
@@ -62,7 +58,7 @@ def ztest_1samp(x, mu0, sigma, alternative="two-sided", alpha=0.05):
         method="单样本 z 检验（σ 已知）",
         alternative=alternative,
         alpha=alpha,
-        h0=f"μ = {mu0:g}",
+        h0=h0,
         h1=h1,
         params={"n": n, "mean": xbar, "se": se},
         steps=steps,
@@ -86,7 +82,7 @@ def ttest_1samp(x, mu0, alternative="two-sided", alpha=0.05):
     t = (xbar - mu0) / se
     p = distributions.p_value(t, alternative, dist="t", df=df)
 
-    h1 = _H1_ONE[alternative].format(mu0=f"{mu0:g}")
+    h0, h1 = _h0_h1("μ", f"{mu0:g}", alternative)
     steps = [
         f"样本量 n = {n}，自由度 df = n - 1 = {df}",
         f"样本均值 = {xbar:.6g}",
@@ -101,7 +97,7 @@ def ttest_1samp(x, mu0, alternative="two-sided", alpha=0.05):
         method="单样本 t 检验（σ 未知）",
         alternative=alternative,
         alpha=alpha,
-        h0=f"μ = {mu0:g}",
+        h0=h0,
         h1=h1,
         params={"n": n, "df": df, "mean": xbar, "sd": s, "se": se},
         steps=steps,
@@ -156,14 +152,15 @@ def ttest_2samp_ind(x1, x2, equal_var=True, alternative="two-sided", alpha=0.05)
         f"统计量 t = (均值1 - 均值2)/SE = ({m1:.6g} - {m2:.6g})/{se:.6g} = {t:.6g}",
         _p_step(alternative, p, "t", f"t 分布，df = {df:.6g}"),
     ]
+    h0, h1 = _h0_h1("μ1", "μ2", alternative)
     return TestResult(
         statistic=t,
         pvalue=p,
         method=method,
         alternative=alternative,
         alpha=alpha,
-        h0="μ1 = μ2",
-        h1=_H1_TWO[alternative],
+        h0=h0,
+        h1=h1,
         params={"n1": n1, "n2": n2, "df": df, "mean1": m1, "mean2": m2, "se": float(se)},
         steps=steps,
     )

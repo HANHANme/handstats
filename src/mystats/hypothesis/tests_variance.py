@@ -6,9 +6,8 @@ import numpy as np
 from mystats import distributions
 from mystats._registry import register
 from mystats.base import TestResult
+from mystats.hypothesis._common import _h0_h1
 from mystats.validate import as_sample, check_alpha, check_alternative
-
-_H1_VAR = {"two-sided": "σ1² ≠ σ2²", "less": "σ1² < σ2²", "greater": "σ1² > σ2²"}
 
 
 @register("ftest_2samp_var")
@@ -49,14 +48,15 @@ def ftest_2samp_var(x1, x2, alternative="two-sided", alpha=0.05):
         f"统计量 F = s1²/s2² = {v1:.6g}/{v2:.6g} = {F:.6g}",
         p_line,
     ]
+    h0, h1 = _h0_h1("σ1²", "σ2²", alternative)
     return TestResult(
         statistic=F,
         pvalue=p,
         method="双样本方差 F 检验",
         alternative=alternative,
         alpha=alpha,
-        h0="σ1² = σ2²",
-        h1=_H1_VAR[alternative],
+        h0=h0,
+        h1=h1,
         params={"n1": n1, "n2": n2, "dfn": dfn, "dfd": dfd, "var1": v1, "var2": v2},
         steps=steps,
     )

@@ -67,6 +67,9 @@ class TestResult:
     def conclusion(self) -> str:
         cmp_ = "≤" if self.reject else ">"
         verdict = "拒绝原假设 H0" if self.reject else "不能拒绝原假设 H0"
+        if self.reject and self.h1 and self.alternative in ("less", "greater"):
+            # 单侧检验的 H0 是复合假设，拒绝时应指明方向性结论落在 H1 一侧
+            verdict += f"，证据支持 H1：{self.h1}"
         lines = []
         if self.method:
             alt_cn = _ALT_CN.get(self.alternative, self.alternative)

@@ -10,7 +10,7 @@ import math
 from mystats import distributions
 from mystats._registry import register
 from mystats.base import TestResult
-from mystats.hypothesis._common import _p_step
+from mystats.hypothesis._common import _h0_h1, _p_step
 from mystats.validate import (
     check_alpha,
     check_alternative,
@@ -18,10 +18,6 @@ from mystats.validate import (
     check_proportion,
     check_successes,
 )
-
-_H1_PROP1 = {"two-sided": "p ≠ {p0}", "less": "p < {p0}", "greater": "p > {p0}"}
-_H1_PROP2 = {"two-sided": "p1 ≠ p2", "less": "p1 < p2", "greater": "p1 > p2"}
-
 
 @register("ztest_1prop")
 def ztest_1prop(x, n, p0, alternative="two-sided", alpha=0.05):
@@ -50,14 +46,15 @@ def ztest_1prop(x, n, p0, alternative="two-sided", alpha=0.05):
         f"统计量 z = (样本比例 - p0)/SE = ({phat:.6g} - {p0:g})/{se:.6g} = {z:.6g}",
         _p_step(alternative, p, "z", "标准正态分布"),
     ]
+    h0, h1 = _h0_h1("p", f"{p0:g}", alternative)
     return TestResult(
         statistic=z,
         pvalue=p,
         method="单比例 z 检验（大样本）",
         alternative=alternative,
         alpha=alpha,
-        h0=f"p = {p0:g}",
-        h1=_H1_PROP1[alternative].format(p0=f"{p0:g}"),
+        h0=h0,
+        h1=h1,
         params={"n": n, "x": x, "phat": phat, "se": se},
         steps=steps,
     )
@@ -91,14 +88,15 @@ def ztest_2prop(x1, n1, x2, n2, alternative="two-sided", alpha=0.05):
         f"统计量 z = (样本比例1 - 样本比例2)/SE = ({phat1:.6g} - {phat2:.6g})/{se:.6g} = {z:.6g}",
         _p_step(alternative, p, "z", "标准正态分布"),
     ]
+    h0, h1 = _h0_h1("p1", "p2", alternative)
     return TestResult(
         statistic=z,
         pvalue=p,
         method="双比例 z 检验（大样本）",
         alternative=alternative,
         alpha=alpha,
-        h0="p1 = p2",
-        h1=_H1_PROP2[alternative],
+        h0=h0,
+        h1=h1,
         params={"n1": n1, "n2": n2, "x1": x1, "x2": x2,
                 "phat1": phat1, "phat2": phat2, "pooled": pooled, "se": se},
         steps=steps,
