@@ -95,7 +95,7 @@ python -m pip install -e ".[shell]"     # 装 streamlit 依赖
 python -m mystats.shell                 # 浏览器自动打开 http://localhost:8501
 ```
 
-22 个过程中 20 个已支持表单化（`nonlin_reg` 需要自定义模型函数，仍走
+22 个过程中 21 个已支持表单化（`nonlin_reg` 需要自定义模型函数，仍走
 代码调用）。外壳只依赖两个稳定接口——注册表（菜单自动发现）和统一
 结果对象（`str(res)` 给结论、`show_steps()` 给核对表）——新增过程后在
 `src/mystats/shell/specs.py` 加一个声明条目即可出现在菜单里。

@@ -73,7 +73,7 @@ def nonlin_reg(model, x, y, p0, alpha=0.05, coef_names=None):
 
     steps = [
         f"模型由用户给定，参数个数 m = {m}，n = {n}，残差自由度 df = n - m = {df_resid}",
-        f"curve_fit 数值优化（Levenberg-Marquardt）得参数 = "
+        f"curve_fit 数值优化（无 bounds 时为 Levenberg-Marquardt 法）得参数 = "
         f"{[round(float(v), 6) for v in beta]}",
         f"残差平方和 SSE = {sse:.6g}，σ² = SSE/(n-m) = {sigma2:.6g}",
         f"标准误 = √(协方差矩阵 pcov 对角元) = {[round(float(v), 6) for v in se]}",

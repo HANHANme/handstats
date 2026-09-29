@@ -90,8 +90,10 @@ def lin_reg(x, y, alpha=0.05, coef_names=None):
 
     # 诊断：杠杆 h_ii（帽子矩阵对角元）、标准化残差、Cook 距离
     hii = np.einsum("ij,jk,ik->i", X, XtX_inv, X) # 等价 diag(X(X'X)^(-1)X')，不生成 n×n 矩阵
-    std_resid = resid / (sigma * np.sqrt(1.0 - hii))
-    cooks = (std_resid**2 / p) * (hii / (1.0 - hii) ** 2)
+    std_resid = resid / (sigma * np.sqrt(1.0 - hii)) # 内学生化残差 r_i = e_i/(s·√(1-h_ii))
+    # Cook 距离：定义 D_i = e_i²·h_ii/(p·MSE·(1-h_ii)²)，代入 r_i 恒等变形为
+    # D_i = r_i²·h_ii/(p·(1-h_ii))（注意分母只有一个 (1-h_ii)，勿再平方）
+    cooks = (std_resid**2 / p) * (hii / (1.0 - hii))
 
     if k == 1:
         xr = X[:, 1]

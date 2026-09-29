@@ -1,4 +1,4 @@
-"""回归模块的对拍测试：scipy.linregress / 手工矩阵公式 / curve_fit / OLS 交叉验证。"""
+"""回归模块的对拍测试：scipy.linregress / 手工矩阵公式 / curve_fit / 删除法定义 / OLS 交叉验证。"""
 import numpy as np
 import pytest
 from scipy import stats
@@ -91,6 +91,37 @@ def test_diagnostics_properties():
     assert np.all(res.cooks_d >= 0)
     assert res.std_residuals.shape == (30,)
     assert "手算核对表" not in res.summary() # summary 与核对表分离
+
+
+def test_cooks_distance_matches_deletion_definition():
+    """Cook 距离金标准对拍：删除法定义 D_i = (β̂-β̂_(i))'X'X(β̂-β̂_(i))/(p·MSE)。
+
+    数据里故意放一个高杠杆点（x=6）：若公式错成多除一个 (1-h_ii)，
+    该点会被放大 1/(1-h_ii) 倍，本测试必然失败（低杠杆点上两种写法
+    差异在小数位以下，捕捉不到）。
+    """
+    x = rng.normal(0, 1, 20)
+    x[0] = 6.0 # 高杠杆点
+    y = 1.0 + 0.8 * x + rng.normal(0, 0.6, 20)
+    res = lin_reg(x, y)
+
+    n = 20
+    Xd = np.column_stack([np.ones(n), x])
+    p = Xd.shape[1] # 含截距的参数个数
+    XtX = Xd.T @ Xd
+    beta_all = np.linalg.solve(XtX, Xd.T @ y)
+    for i in range(n):
+        mask = np.ones(n, dtype=bool)
+        mask[i] = False
+        Xm, ym = Xd[mask], y[mask]
+        beta_i = np.linalg.solve(Xm.T @ Xm, Xm.T @ ym)
+        diff = beta_all - beta_i
+        d_ref = float(diff @ XtX @ diff) / (p * res.sigma2) # MSE 取全模型的
+        _assert_close(res.cooks_d[i], d_ref)
+    # 高杠杆点上 1/(1-h_ii) 因子的放大效应显著，防止将来回归到错误公式
+    assert res.leverage[0] > 0.5 # 确保该测试数据确实造出了高杠杆点
+    wrong = res.cooks_d[0] / (1.0 - res.leverage[0]) # 错误公式的值
+    assert abs(wrong - res.cooks_d[0]) / res.cooks_d[0] > 0.2
 
 
 def test_input_errors():

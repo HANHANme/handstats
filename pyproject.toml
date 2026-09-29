@@ -8,14 +8,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mystats" # ← 占位名！发布前整体改名：改这里 + 改 src/mystats 目录名
-version = "0.7.1"
+version = "0.7.2"
 description = "面向学习的数理统计工具包：假设检验、区间估计、回归、方差分析（建设中）"
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.9"
 dependencies = [
     "numpy>=1.22",
-    "scipy>=1.8",
+    "scipy>=1.11", # tukey_hsd 用 studentized_range 分布，scipy 1.11 才加入
 ]
 
 [project.optional-dependencies]
