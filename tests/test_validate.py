@@ -2,7 +2,7 @@
 import numpy as np
 import pytest
 
-from mystats.validate import (
+from handstats.validate import (
     as_counts,
     as_sample,
     as_table,

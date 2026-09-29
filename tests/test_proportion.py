@@ -3,7 +3,7 @@ import numpy as np
 import pytest
 from scipy import stats
 
-from mystats.hypothesis import ztest_1prop, ztest_2prop
+from handstats.hypothesis import ztest_1prop, ztest_2prop
 
 
 def _assert_close(a, b):

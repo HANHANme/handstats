@@ -2,7 +2,7 @@
 import numpy as np
 from scipy import stats
 
-from mystats.interval import ci_mean
+from handstats.interval import ci_mean
 
 rng = np.random.default_rng(20260922)
 

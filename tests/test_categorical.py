@@ -3,7 +3,7 @@ import numpy as np
 import pytest
 from scipy import stats
 
-from mystats.hypothesis import chisquare_gof, chisquare_ind
+from handstats.hypothesis import chisquare_gof, chisquare_ind
 
 
 def _assert_close(a, b):

@@ -4,8 +4,8 @@ import numpy as np
 import pytest
 from scipy import stats
 
-from mystats.anova import anova_oneway, anova_twoway, levene_test, tukey_hsd
-from mystats.regression import lin_reg
+from handstats.anova import anova_oneway, anova_twoway, levene_test, tukey_hsd
+from handstats.regression import lin_reg
 
 rng = np.random.default_rng(20260922)
 

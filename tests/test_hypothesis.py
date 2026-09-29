@@ -7,7 +7,7 @@ import numpy as np
 import pytest
 from scipy import stats
 
-from mystats.hypothesis import (
+from handstats.hypothesis import (
     ftest_2samp_var,
     ttest_1samp,
     ttest_2samp_ind,

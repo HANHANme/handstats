@@ -3,7 +3,7 @@ import numpy as np
 import pytest
 from scipy import stats
 
-from mystats.hypothesis import glrt_exponential_mean, glrt_normal_mean, glrt_test
+from handstats.hypothesis import glrt_exponential_mean, glrt_normal_mean, glrt_test
 
 rng = np.random.default_rng(20260922)
 

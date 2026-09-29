@@ -6,7 +6,7 @@ import sys
 
 import numpy as np
 
-from mystats import glrt_exponential_mean, glrt_normal_mean, glrt_test
+from handstats import glrt_exponential_mean, glrt_normal_mean, glrt_test
 
 # 中文 Windows 控制台若是 GBK 编码，重定向输出时防止个别字符报错
 if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):

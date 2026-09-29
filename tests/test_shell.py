@@ -5,14 +5,14 @@ import numpy as np
 import pytest
 from inspect import signature
 
-from mystats import list_procedures
-from mystats.shell.parsing import (
+from handstats import list_procedures
+from handstats.shell.parsing import (
     parse_groups,
     parse_sample,
     parse_table2d,
     parse_xycols,
 )
-from mystats.shell.specs import SPECS
+from handstats.shell.specs import SPECS
 
 
 def test_parse_sample_mixed_separators():

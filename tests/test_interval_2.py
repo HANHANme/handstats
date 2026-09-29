@@ -3,7 +3,7 @@ import numpy as np
 import pytest
 from scipy import stats
 
-from mystats.interval import ci_mean_2samp, ci_paired_diff, ci_proportion, ci_var
+from handstats.interval import ci_mean_2samp, ci_paired_diff, ci_proportion, ci_var
 
 rng = np.random.default_rng(20260922)
 

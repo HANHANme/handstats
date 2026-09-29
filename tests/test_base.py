@@ -1,9 +1,9 @@
 """结果对象与注册表的行为测试。"""
 import pytest
 
-from mystats import list_procedures
-from mystats._registry import register
-from mystats.hypothesis import ttest_1samp
+from handstats import list_procedures
+from handstats._registry import register
+from handstats.hypothesis import ttest_1samp
 
 
 def test_show_steps_prints_handcheck(capsys):

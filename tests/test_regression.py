@@ -4,7 +4,7 @@ import pytest
 from scipy import stats
 from scipy.optimize import curve_fit
 
-from mystats.regression import lin_reg, nonlin_reg
+from handstats.regression import lin_reg, nonlin_reg
 
 rng = np.random.default_rng(20260922)
 

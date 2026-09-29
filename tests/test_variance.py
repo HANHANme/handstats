@@ -3,7 +3,7 @@ import numpy as np
 import pytest
 from scipy import stats
 
-from mystats.hypothesis import ftest_2samp_var
+from handstats.hypothesis import ftest_2samp_var
 
 rng = np.random.default_rng(20260922)
 

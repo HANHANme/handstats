@@ -6,7 +6,7 @@ import sys
 
 import numpy as np
 
-from mystats import ci_mean, ttest_1samp
+from handstats import ci_mean, ttest_1samp
 
 # 中文 Windows 控制台若是 GBK 编码，重定向输出时防止个别字符报错
 if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
