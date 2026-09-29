@@ -1,6 +1,11 @@
 # handstats
 
-> 面向学习的数理统计工具包：假设检验 · 区间估计 · 回归 · 方差分析（建设中）
+[![tests](https://github.com/HANHANme/handstats/actions/workflows/tests.yml/badge.svg)](https://github.com/HANHANme/handstats/actions/workflows/tests.yml)
+[![PyPI](https://img.shields.io/pypi/v/handstats)](https://pypi.org/project/handstats/)
+[![Python](https://img.shields.io/pypi/pyversions/handstats)](https://pypi.org/project/handstats/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+> 面向学习的数理统计工具包：假设检验 · 区间估计 · 回归 · 方差分析 · 无代码网页外壳
 
 `handstats` 与 scipy.stats 的差别只有一句话：**每个过程都输出手算核对表**——
 样本量、均值、标准差、标准误、统计量、自由度、p 值的每一步算式都逐行
