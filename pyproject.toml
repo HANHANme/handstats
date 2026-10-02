@@ -20,14 +20,15 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
 ]
-[project.urls]
-Homepage = "https://github.com/HANHANme/handstats"
-Repository = "https://github.com/HANHANme/handstats"
-Issues = "https://github.com/HANHANme/handstats/issues"
 dependencies = [
     "numpy>=1.22",
     "scipy>=1.11", # tukey_hsd 用 studentized_range 分布，scipy 1.11 才加入
 ]
+
+[project.urls]
+Homepage = "https://github.com/HANHANme/handstats"
+Repository = "https://github.com/HANHANme/handstats"
+Issues = "https://github.com/HANHANme/handstats/issues"
 
 [project.optional-dependencies]
 # 开发时的额外依赖：pip install -e ".[dev]" 会一并装上
