@@ -97,8 +97,22 @@ src/handstats/
 
 ```bash
 python -m pip install -e ".[shell]"     # 装 streamlit 依赖
-python -m handstats.shell                 # 浏览器自动打开 http://localhost:8501
+python -m handstats.shell               # 浏览器自动打开 http://localhost:8501
 ```
+
+三种启动方式（按人群）：
+
+| 人群 | 方式 | 成本 |
+|---|---|---|
+| 装了 Python、不想敲命令 | 双击仓库根目录的 `启动统计工作室.bat`（首次自动装依赖） | 双击即用 |
+| 习惯终端 | `python -m handstats.shell` | 一条命令 |
+| 完全不装 Python | 用部署在 Streamlit Cloud 的公开网址（见下） | 点开链接即用 |
+
+部署自己的云端版（免费）：登录 [share.streamlit.io](https://share.streamlit.io)（用
+GitHub 账号）→ New app → 仓库选 `HANHANme/handstats`、分支 `main`、主文件路径填
+`src/handstats/shell/app.py` → Deploy。云端按仓库根目录的 `requirements.txt`
+装依赖（即 PyPI 上的 handstats），几分钟后任何设备的浏览器都能用；
+以后发了新版本，在云端应用菜单里 Reboot 即可更新。
 
 22 个过程中 21 个已支持表单化（`nonlin_reg` 需要自定义模型函数，仍走
 代码调用）。外壳只依赖两个稳定接口——注册表（菜单自动发现）和统一
