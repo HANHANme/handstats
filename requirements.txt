@@ -1,3 +1,4 @@
 # Streamlit Cloud 部署用：云端按本文件安装依赖。
-# handstats 本体从 PyPI 安装（[shell] 会带上网页外壳所需的 streamlit）。
-handstats[shell]>=0.8.0
+# 直接安装仓库源码（[shell] 会带上 streamlit 等）——云端 Reboot 即同步 main 分支最新代码；
+# 如想固定用 PyPI 正式版，把下面一行改成：handstats[shell]>=0.8.0
+.[shell]

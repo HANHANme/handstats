@@ -79,6 +79,18 @@ def parse_xycols(text, label: str = "观测数据"):
     return tab[:, 0], tab[:, 1]
 
 
+def parse_xytable(text, label: str = "观测数据"):
+    """每行一个观测：最后一列是因变量 y，其余列全是自变量。返回 (X, y)。
+
+    与 parse_xycols 的差别：允许任意列数（≥2）——一元回归的两列数据
+    天然兼容，多元回归把各自变量列依次排在前即可。
+    """
+    tab = parse_table2d(text, label, min_rows=3)
+    if tab.shape[1] < 2:
+        raise ValueError(f"{label}至少需要两列：前面的列是自变量，最后一列是因变量 y")
+    return tab[:, :-1], tab[:, -1]
+
+
 # kind → 解析器 + 文本框的提示文案（app.py 渲染用）
 PARSERS = {
     "sample": {
@@ -105,5 +117,10 @@ PARSERS = {
         "fn": parse_xycols,
         "placeholder": "1.2  5.3\n2.0  6.1\n2.8  7.0 ...",
         "help": "每行一个观测，两列：自变量x 因变量y；可从 Excel 复制两列粘贴",
+    },
+    "xytable": {
+        "fn": parse_xytable,
+        "placeholder": "x1   x2   y\n1.2  3.5  5.3\n2.0  4.1  6.1 ...",
+        "help": "每行一个观测，最后一列是因变量 y，其余列是自变量；可从 Excel 复制多列粘贴",
     },
 }

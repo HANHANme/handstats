@@ -11,6 +11,7 @@ from handstats.shell.parsing import (
     parse_sample,
     parse_table2d,
     parse_xycols,
+    parse_xytable,
 )
 from handstats.shell.specs import SPECS
 
@@ -52,6 +53,21 @@ def test_parse_xycols_splits_columns():
         parse_xycols("1 2 3\n4 5 6\n7 8 9") # 三列
 
 
+def test_parse_xytable_multiple_predictors():
+    """多元回归入口：每行任意列，最后一列是 y，其余是自变量。"""
+    X, y = parse_xytable("1.2 3.5 5.3\n2.0 4.1 6.1\n2.8 4.6 7.0")
+    assert X.shape == (3, 2)
+    assert np.allclose(X, [[1.2, 3.5], [2.0, 4.1], [2.8, 4.6]])
+    assert np.allclose(y, [5.3, 6.1, 7.0])
+    # 一元（两列）天然兼容
+    X1, y1 = parse_xytable("1.2 5.3\n2.0 6.1\n2.8 7.0")
+    assert X1.shape == (3, 1)
+    assert np.allclose(y1, [5.3, 6.1, 7.0])
+    # 单列没有自变量 → 报错
+    with pytest.raises(ValueError, match="至少需要两列"):
+        parse_xytable("5.3\n6.1\n7.0")
+
+
 def test_specs_are_registered_procedures():
     procs = set(list_procedures())
     assert set(SPECS) <= procs, "SPEC 里有未注册的过程名"
@@ -88,7 +104,8 @@ EXAMPLES = {
     "ci_paired_diff": {"x1": [1, 2, 3, 4], "x2": [2, 3, 4, 5]},
     "ci_var": {"x": [1, 2, 3, 4, 5]},
     "ci_proportion": {"x": 3, "n": 100},
-    "lin_reg": {"x": [1, 2, 3, 4, 5], "y": [2.1, 2.9, 4.2, 5.1, 5.9]},
+    "lin_reg": {"x": [[1.0, 2.0], [2.0, 1.0], [3.0, 3.0], [4.0, 2.0], [5.0, 4.0]],
+                "y": [2.1, 3.3, 4.4, 5.2, 6.4]}, # 外壳入口已是多元（2 个自变量）
     "anova_oneway": {"groups": [[1, 2, 3], [3, 4, 5], [5, 6, 7]]},
     "levene_test": {"groups": [[1, 2, 3], [3, 4, 5]]},
     "tukey_hsd": {"groups": [[75, 80, 68, 72, 85], [70, 78, 74, 69, 81],

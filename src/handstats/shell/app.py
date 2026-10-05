@@ -133,6 +133,23 @@ for pname, pinfo in sig.parameters.items():
                 format_func=lambda v, o=options: o[v],
                 key=key,
             )
+        elif override["kind"] == "optional_text":
+            # 可选的文本参数（如多元回归的自变量命名），留空则不传、走函数默认；
+            # prefix 可指定自动补在列表开头的前缀（如 coef_names 的"截距"）
+            txt = st.text_input(
+                override.get("input_label", label),
+                value="",
+                key=key,
+                help=override.get("help"),
+            )
+            if txt.strip():
+                names = [
+                    s.strip() for s in txt.replace("，", ",").split(",") if s.strip()
+                ]
+                prefix = override.get("prefix")
+                if prefix:
+                    names = [prefix, *names]
+                scalar_kwargs[pname] = names
         continue
 
     if dv is inspect.Parameter.empty:
