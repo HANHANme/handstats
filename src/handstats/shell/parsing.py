@@ -80,15 +80,17 @@ def parse_xycols(text, label: str = "观测数据"):
 
 
 def parse_xytable(text, label: str = "观测数据"):
-    """每行一个观测：最后一列是因变量 y，其余列全是自变量。返回 (X, y)。
+    """教材方向的回归数据表：每列一个观测值，最后一行是因变量 y，
+    上面的行都是自变量。返回 lin_reg 需要的 (X, y)——X 形状 (观测数, 自变量数)。
 
-    与 parse_xycols 的差别：允许任意列数（≥2）——一元回归的两列数据
-    天然兼容，多元回归把各自变量列依次排在前即可。
+    内部做一次转置：粘贴表是 (变量 × 观测)，lin_reg 按"行 = 观测"取数。
     """
-    tab = parse_table2d(text, label, min_rows=3)
-    if tab.shape[1] < 2:
-        raise ValueError(f"{label}至少需要两列：前面的列是自变量，最后一列是因变量 y")
-    return tab[:, :-1], tab[:, -1]
+    tab = parse_table2d(text, label, min_rows=2)
+    if tab.shape[1] < 3:
+        raise ValueError(f"{label}每列是一个观测值，至少需要 3 列（3 个观测）")
+    X = tab[:-1, :].T # 转置成 (观测数, 自变量数)
+    y = tab[-1, :]
+    return X, y
 
 
 # kind → 解析器 + 文本框的提示文案（app.py 渲染用）
@@ -120,7 +122,8 @@ PARSERS = {
     },
     "xytable": {
         "fn": parse_xytable,
-        "placeholder": "x1   x2   y\n1.2  3.5  5.3\n2.0  4.1  6.1 ...",
-        "help": "每行一个观测，最后一列是因变量 y，其余列是自变量；可从 Excel 复制多列粘贴",
+        "placeholder": "1.2  3.5  5.3\n2.0  4.1  6.1\n5.3  6.1  7.0 ...",
+        "help": "每列是一个观测值；最后一行是因变量 y，上面的行都是自变量"
+                "（同教材数据表方向，可从 Excel 整块粘贴）",
     },
 }

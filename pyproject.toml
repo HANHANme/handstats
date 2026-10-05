@@ -8,7 +8,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "handstats" # 已确认 PyPI 可用（原名 mystats 已被占用，2026-09 改名）
-version = "0.9.0"
+version = "0.9.1"
 description = "面向学习的数理统计工具包：假设检验 · 区间估计 · 回归 · 方差分析 · 无代码网页外壳"
 readme = "README.md"
 license = { text = "MIT" }

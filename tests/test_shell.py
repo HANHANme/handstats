@@ -53,19 +53,31 @@ def test_parse_xycols_splits_columns():
         parse_xycols("1 2 3\n4 5 6\n7 8 9") # 三列
 
 
-def test_parse_xytable_multiple_predictors():
-    """多元回归入口：每行任意列，最后一列是 y，其余是自变量。"""
+def test_parse_xytable_variables_in_rows():
+    """教材方向：每列一个观测值，最后一行是因变量 y，上面的行是自变量。"""
     X, y = parse_xytable("1.2 3.5 5.3\n2.0 4.1 6.1\n2.8 4.6 7.0")
-    assert X.shape == (3, 2)
-    assert np.allclose(X, [[1.2, 3.5], [2.0, 4.1], [2.8, 4.6]])
-    assert np.allclose(y, [5.3, 6.1, 7.0])
-    # 一元（两列）天然兼容
-    X1, y1 = parse_xytable("1.2 5.3\n2.0 6.1\n2.8 7.0")
+    assert X.shape == (3, 2) # (观测数, 自变量数)：lin_reg 按行取观测
+    assert np.allclose(X, [[1.2, 2.0], [3.5, 4.1], [5.3, 6.1]])
+    assert np.allclose(y, [2.8, 4.6, 7.0])
+    # 一元：两行（一行自变量 + 一行 y）
+    X1, y1 = parse_xytable("1.2 2.0 2.8\n5.3 6.1 7.0")
     assert X1.shape == (3, 1)
+    assert np.allclose(X1[:, 0], [1.2, 2.0, 2.8])
     assert np.allclose(y1, [5.3, 6.1, 7.0])
-    # 单列没有自变量 → 报错
-    with pytest.raises(ValueError, match="至少需要两列"):
-        parse_xytable("5.3\n6.1\n7.0")
+    with pytest.raises(ValueError, match="至少需要 2 行"):
+        parse_xytable("5.3 6.1 7.0") # 只有 y 行，没有自变量
+    with pytest.raises(ValueError, match="至少需要 3 列"):
+        parse_xytable("1 2\n3 4") # 只有 2 个观测
+
+
+def test_parse_xytable_feeds_lin_reg():
+    """解析结果直接喂给 lin_reg——外壳的完整数据链路。"""
+    from handstats.regression import lin_reg
+
+    X, y = parse_xytable("1 2 3 4 5\n2.1 2.9 4.2 5.1 5.9")
+    res = lin_reg(X, y)
+    assert res.df_resid == 3 # n = 5 个观测，p = 2（含截距）
+    assert res.coef_names == ["截距", "x1"]
 
 
 def test_specs_are_registered_procedures():
